@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.2.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DoctorAppointment.Entities\DoctorAppointment.Entities.csproj" />
     <ProjectReference Include="..\DoctorAppointment.Infrastructure\DoctorAppointment.Infrastructure.csproj" />
   </ItemGroup>

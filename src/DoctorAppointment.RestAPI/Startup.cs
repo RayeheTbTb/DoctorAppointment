@@ -1,14 +1,6 @@
-using DoctorAppointment.Infrastructure.Application;
+using Autofac;
 using DoctorAppointment.Persistence.EF;
-using DoctorAppointment.Persistence.EF.Appointments;
-using DoctorAppointment.Persistence.EF.Doctors;
-using DoctorAppointment.Persistence.EF.Patients;
-using DoctorAppointment.Services.Appointments;
-using DoctorAppointment.Services.Appointments.Contracts;
-using DoctorAppointment.Services.Doctors;
-using DoctorAppointment.Services.Doctors.Contracts;
-using DoctorAppointment.Services.Patients;
-using DoctorAppointment.Services.Patients.Contracts;
+using DoctorAppointment.Persistence.EF.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,21 +28,15 @@ namespace DoctorAppointment.RestAPI
             services.AddDbContext<ApplicationDbContext>
                 (_ => _.UseSqlServer(Configuration["ConnectionString"]));
 
-            services.AddScoped<UnitOfWork, EFUnitOfWork>();
-
-            services.AddScoped<DoctorRepository, EFDoctorRepository>();
-            services.AddScoped<DoctorService, DoctorAppService>();
-
-            services.AddScoped<PatientService, PatientAppService>();
-            services.AddScoped<PatientRepository, EFPatientRepository>();
-
-            services.AddScoped<AppointmentService, AppointmentAppService>();
-            services.AddScoped<AppointmentRepository, EFAppointmentRepository>();
-            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DoctorAppointment.RestAPI", Version = "v1" });
             });
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new RegisterModule());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
