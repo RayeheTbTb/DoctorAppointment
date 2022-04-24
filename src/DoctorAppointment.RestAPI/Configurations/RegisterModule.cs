@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DoctorAppointment.Infrastructure.Application;
+using DoctorAppointment.Persistence.EF;
 using DoctorAppointment.Persistence.EF.Appointments;
 using DoctorAppointment.Persistence.EF.Doctors;
 using DoctorAppointment.Persistence.EF.Patients;
@@ -11,7 +12,7 @@ using DoctorAppointment.Services.Patients;
 using DoctorAppointment.Services.Patients.Contracts;
 
 
-namespace DoctorAppointment.Persistence.EF.Configurations
+namespace DoctorAppointment.RestAPI.Configurations
 {
     public class RegisterModule : Module
     {

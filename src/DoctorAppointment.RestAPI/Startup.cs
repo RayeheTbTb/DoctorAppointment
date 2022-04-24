@@ -1,6 +1,6 @@
 using Autofac;
 using DoctorAppointment.Persistence.EF;
-using DoctorAppointment.Persistence.EF.Configurations;
+using DoctorAppointment.RestAPI.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
