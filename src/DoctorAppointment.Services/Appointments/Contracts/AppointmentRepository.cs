@@ -13,7 +13,7 @@ namespace DoctorAppointment.Services.Appointments.Contracts
         List<PatientAppointmentsDto> GetPatientAppointments(int id);
         List<DoctorAppointmentsDto> GetDoctorAppointments(int id);
         Appointment FindById(int id);
-        bool DuplicateAppointment(Appointment appointment);
+        bool DuplicateAppointment(AddAppointmentDto dto);
         int GetAppointmentCount(int doctorId, DateTime Date);
     }
 }

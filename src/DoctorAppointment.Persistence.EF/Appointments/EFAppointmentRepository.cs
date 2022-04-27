@@ -25,17 +25,11 @@ namespace DoctorAppointment.Persistence.EF.Appointments
             _appointments.Add(appointment);
         }
 
-        public bool DuplicateAppointment(Appointment appointment)
+        public bool DuplicateAppointment(AddAppointmentDto dto)
         {
-            foreach(var app in _appointments)
-            {
-                if ((app.Date.Date == appointment.Date.Date) && (app.DoctorId == appointment.DoctorId)
-                    && (app.PatientId == appointment.PatientId))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return _appointments.Any(_ => _.Date == dto.Date
+            && _.PatientId == dto.PatientId && _.DoctorId == dto.DoctorId);
+            
         }
 
         public int GetAppointmentCount(int doctorId, DateTime Date)

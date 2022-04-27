@@ -60,7 +60,7 @@ namespace DoctorAppointment.Services.Test.Unit.Appointments
             expected.Should().ThrowExactly<AppointmentLimitReachedException>();
         }
 
-        /*[Fact]
+        [Fact]
         public void Add_throws_DuplicateAppointmentException_when_there_is_already_an_appointment_with_all_values_equal_to_the_given_appointment_to_add()
         {
             var dto = new AddAppointmentDto
@@ -75,13 +75,13 @@ namespace DoctorAppointment.Services.Test.Unit.Appointments
                 PatientId = 1,
                 Date = DateTime.Parse("2022-04-27T05:22:05.264Z")
             };
-            _repository.Setup(_ => _.DuplicateAppointment(appointment)).Returns(true);
+            _repository.Setup(_ => _.DuplicateAppointment(dto)).Returns(true);
 
             Action expected = () => _sut.Add(dto);
 
             expected.Should().ThrowExactly<DuplicateAppointmentException>();
 
-        }*/
+        }
 
         [Fact]
         public void GetPatientAppointments_returns_given_patient_id_appointments()

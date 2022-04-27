@@ -31,7 +31,7 @@ namespace DoctorAppointment.Services.Appointments
                 throw new AppointmentLimitReachedException();
             }
 
-            var duplicateApp = _repository.DuplicateAppointment(appointment);
+            var duplicateApp = _repository.DuplicateAppointment(dto);
             if (duplicateApp)
             {
                 throw new DuplicateAppointmentException();
