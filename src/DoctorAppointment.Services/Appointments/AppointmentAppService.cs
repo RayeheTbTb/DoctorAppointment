@@ -43,6 +43,7 @@ namespace DoctorAppointment.Services.Appointments
 
         public void Delete(int id)
         {
+            var appointment = _repository.FindById(id);
             var isAppointmentExist = _repository.IsExistId(id);
 
             if (!isAppointmentExist)
@@ -50,7 +51,7 @@ namespace DoctorAppointment.Services.Appointments
                 throw new AppointmentNotFoundException();
             }
 
-            _repository.Delete(id);
+            _repository.Delete(appointment);
             _unitOfWork.Commit();
         }
 
@@ -66,20 +67,18 @@ namespace DoctorAppointment.Services.Appointments
 
         public void Update(int id, AddAppointmentDto dto)
         {
-            var isAppointmentExist = _repository.IsExistId(id);
-            var appointment = new Appointment
-            {
-                Id = id,
-                DoctorId = dto.DoctorId,
-                PatientId = dto.PatientId,
-                Date = dto.Date
-            };
+            var appointment = _repository.FindById(id);
 
+            var isAppointmentExist = _repository.IsExistId(id);
             if (!isAppointmentExist)
             {
                 throw new AppointmentNotFoundException();
             }
-            _repository.Update(appointment);
+
+            appointment.DoctorId = dto.DoctorId;
+            appointment.PatientId = dto.PatientId;
+            appointment.Date = dto.Date;
+
             _unitOfWork.Commit();
         }
     }

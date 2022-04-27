@@ -1,6 +1,9 @@
 using Autofac;
+using DoctorAppointment.Infrastructure.Application;
 using DoctorAppointment.Persistence.EF;
+using DoctorAppointment.Persistence.EF.Doctors;
 using DoctorAppointment.RestAPI.Configurations;
+using DoctorAppointment.Services.Doctors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +39,24 @@ namespace DoctorAppointment.RestAPI
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new RegisterModule());
+            builder.RegisterType<ApplicationDbContext>()
+                .WithParameter("connectionString", Configuration["ConnectionString"])
+                 .AsSelf()
+                 .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(typeof(EFDoctorRepository).Assembly)
+                      .AssignableTo<Repository>()
+                      .AsImplementedInterfaces()
+                      .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(typeof(DoctorAppService).Assembly)
+                      .AssignableTo<Service>()
+                      .AsImplementedInterfaces()
+                      .InstancePerLifetimeScope();
+
+            builder.RegisterType<EFUnitOfWork>()
+                .As<UnitOfWork>()
+                .InstancePerLifetimeScope();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

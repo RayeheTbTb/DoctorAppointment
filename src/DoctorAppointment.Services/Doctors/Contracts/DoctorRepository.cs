@@ -1,9 +1,10 @@
 ﻿using DoctorAppointment.Entities;
+using DoctorAppointment.Infrastructure.Application;
 using System.Collections.Generic;
 
 namespace DoctorAppointment.Services.Doctors.Contracts
 {
-    public interface DoctorRepository 
+    public interface DoctorRepository : Repository
     {
         void Add(Doctor doctor);
         List<GetDoctorDto> GetAll();

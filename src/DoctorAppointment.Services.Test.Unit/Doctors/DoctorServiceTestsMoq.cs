@@ -95,6 +95,62 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
         }
 
         [Fact]
+        public void Updates_throws_DoctorNotFoundException_when_patient_with_given_id_does_not_exist()
+        {
+            var dto = new AddDoctorDto
+            {
+                FirstName = "dummyDr",
+                LastName = "dummyDrLn",
+                Field = "dummyField",
+                NationalCode = "dummyCode"
+            };
+            var dummyId = 10;
+
+            Action expected = () => _sut.Update(dummyId, dto);
+
+            expected.Should().ThrowExactly<DoctorNotFoundException>();
+        }
+
+        [Fact]
+        public void Update_throws_DuplicateNationalCodeException_when_another_doctor_with_given_nationalCode_exists()
+        {
+            var dto = new AddDoctorDto
+            {
+                FirstName = "dummyDr",
+                LastName = "dummyDrLn",
+                Field = "dummyField",
+                NationalCode = "dummyCode"
+            };
+            Doctor doctor1 = new Doctor
+            {
+                Id = 1,
+                FirstName = "dummyFn",
+                LastName = "dummyLn",
+                Field = "dummyField1",
+                NationalCode = "dummyCode"
+            };
+            Doctor doctor2 = new Doctor
+            {
+                Id = 2,
+                FirstName = "dummyFn2",
+                LastName = "dummyLn2",
+                Field = "dummyField2",
+                NationalCode = "dummyCode2"
+            };
+            List<Doctor> dupDocs = new List<Doctor>
+            {
+                doctor1, doctor2
+            };
+            _repository.Setup(_ => _.FindById(doctor1.Id)).Returns(doctor1);
+            _repository.Setup(_ => _.IsExistId(doctor1.Id)).Returns(true);
+            _repository.Setup(_ => _.FindByNationalCode(doctor1.NationalCode)).Returns(dupDocs);
+
+            Action expected = () => _sut.Update(doctor1.Id, dto);
+
+            expected.Should().ThrowExactly<DuplicateNationalCodeException>();
+        }
+
+        [Fact]
         public void Delete_deletes_doctor_properly()
         {
             var doctor = new Doctor

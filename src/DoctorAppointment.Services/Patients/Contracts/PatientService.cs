@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using DoctorAppointment.Infrastructure.Application;
+using System.Collections.Generic;
 
 namespace DoctorAppointment.Services.Patients.Contracts
 {
-    public interface PatientService
+    public interface PatientService : Service
     {
         void Add(AddPatientDto dto);
         void Update(int id, UpdatePatientDto dto);

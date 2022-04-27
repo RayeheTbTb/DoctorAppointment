@@ -43,9 +43,9 @@ namespace DoctorAppointment.Persistence.EF.Appointments
             return _appointments.Where(_ => _.Date.Date == Date.Date).Select(_ => _.DoctorId == doctorId).Count();
         }
 
-        public void Delete(int id)
+        public void Delete(Appointment appointment)
         {
-            _appointments.Remove(FindById(id));
+            _appointments.Remove(appointment);
         }
 
         public Appointment FindById(int id)
@@ -92,11 +92,6 @@ namespace DoctorAppointment.Persistence.EF.Appointments
         public bool IsExistId(int id)
         {
             return _appointments.AsNoTracking().Any(_ => _.Id == id);
-        }
-
-        public void Update(Appointment appointment)
-        {
-            _appointments.Update(appointment);
         }
     }
 }

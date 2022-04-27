@@ -46,7 +46,6 @@ namespace DoctorAppointment.Persistence.EF.Patients
                 NationalCode = patient.NationalCode
             };
         }
-
         public List<GetPatientDto> GetAll()
         {
             return _patients.Select(_ => new GetPatientDto
@@ -66,11 +65,6 @@ namespace DoctorAppointment.Persistence.EF.Patients
         public bool IsExistNationalCode(string nationalCode)
         {
             return _patients.AsNoTracking().Any(_ => _.NationalCode == nationalCode);
-        }
-
-        public void Update(Patient patient)
-        {
-            _patients.Update(patient);
         }
     }
 }

@@ -69,7 +69,7 @@ namespace DoctorAppointment.Services.Doctors
         {
             var doctor = _repository.FindById(id);
 
-            var isDoctorExist = _repository.IsExistId(doctor.Id);
+            var isDoctorExist = _repository.IsExistId(id);
             if (!isDoctorExist)
             {
                 throw new DoctorNotFoundException();

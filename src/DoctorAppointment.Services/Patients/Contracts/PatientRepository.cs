@@ -1,9 +1,10 @@
 ﻿using DoctorAppointment.Entities;
+using DoctorAppointment.Infrastructure.Application;
 using System.Collections.Generic;
 
 namespace DoctorAppointment.Services.Patients.Contracts
 {
-    public interface PatientRepository
+    public interface PatientRepository : Repository
     {
         void Add(Patient patient);
         void Delete(Patient patient);
