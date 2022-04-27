@@ -7,7 +7,6 @@ namespace DoctorAppointment.Services.Patients.Contracts
     {
         void Add(Patient patient);
         void Delete(Patient patient);
-        void Update(Patient patient);
         List<GetPatientDto> GetAll();
         GetPatientDto Get(int id);
         bool IsExistNationalCode(string nationalCode);

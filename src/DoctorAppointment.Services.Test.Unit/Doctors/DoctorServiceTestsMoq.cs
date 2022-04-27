@@ -72,7 +72,6 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
                 Field = "UpdatedDummyField",
                 NationalCode = "UpdatedDummyCode"
             };
-
             var doctor = new Doctor
             {
                 Id = 1,
@@ -81,14 +80,18 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
                 Field = "dummyField",
                 NationalCode = "dummy"
             };
+            List<Doctor> dupDocs = new List<Doctor>
+            {
+                doctor
+            };
+            _repository.Setup(_ => _.FindById(doctor.Id)).Returns(doctor);
+            _repository.Setup(_ => _.IsExistId(doctor.Id)).Returns(true);
+            _repository.Setup(_ => _.FindByNationalCode(doctor.NationalCode)).Returns(dupDocs);
 
-            //problem with Update exceptions!!
-
-            /*repository.Setup(_ => _.FindById(doctor.Id)).Returns(doctor);
 
             _sut.Update(doctor.Id, dto);
 
-            unitOfWork.Verify(_ => _.Commit());*/
+            _unitOfWork.Verify(_ => _.Commit());
         }
 
         [Fact]

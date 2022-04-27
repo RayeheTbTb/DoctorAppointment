@@ -87,5 +87,126 @@ namespace DoctorAppointment.Services.Test.Unit.Patients
 
             expected.Should().ThrowExactly<PatientNotFoundException>();
         }
+
+        [Fact]
+        public void GetAll_returns_all_patients()
+        {
+            _repository.Setup(_ => _.GetAll())
+                .Returns(new List<GetPatientDto>
+                {
+                    new GetPatientDto
+                    {
+                        Id = 1,
+                        FirstName = "dummyFn",
+                        LastName = "dummyLn",
+                        NationalCode = "dummyCode"
+                    }
+                });
+
+            var expected = _sut.GetAll();
+
+            expected.Should().HaveCount(1);
+            expected.Should().Contain(_ => _.Id == 1);
+            expected.Should().Contain(_ => _.NationalCode == "dummyCode");
+        }
+
+        [Fact]
+        public void Get_returns_patient_with_given_id()
+        {
+            var dto = new GetPatientDto
+            {
+                Id = 1,
+                FirstName = "dummyFn",
+                LastName = "dummyLn",
+                NationalCode = "dummyCode"
+            };
+            _repository.Setup(_ => _.Get(dto.Id)).Returns(dto);
+            _repository.Setup(_ => _.IsExistId(dto.Id)).Returns(true);
+
+            var expected = _sut.Get(dto.Id);
+
+            expected.Id.Should().Be(1);
+        }
+
+        [Fact]
+        public void Update_updates_patient_properly()
+        {
+            var dto = new UpdatePatientDto
+            {
+                FirstName = "UpdatedDummyFn",
+                LastName = "UpdatedDummyLn",
+                NationalCode = "UpdatedDummyCode"
+            };
+            var patient = new Patient
+            {
+                Id = 1,
+                FirstName = "dummyFn",
+                LastName = "dummyLn",
+                NationalCode = "dummyCode"
+            };
+            List<Patient> dupPatients = new List<Patient>
+            {
+                patient
+            };
+            _repository.Setup(_ => _.IsExistId(patient.Id)).Returns(true);
+            _repository.Setup(_ => _.FindByNationalCode(patient.NationalCode)).Returns(dupPatients);
+            _repository.Setup(_ => _.FindByeId(patient.Id)).Returns(patient);
+
+            _sut.Update(patient.Id, dto);
+
+            _unitOfWork.Verify(_ => _.Commit());
+        }
+
+        [Fact]
+        public void Updates_throws_PatientNotFoundException_when_patient_with_given_id_does_not_exist()
+        {
+            var dto = new UpdatePatientDto
+            {
+                FirstName = "UpdatedDummyFn",
+                LastName = "UpdatedDummyLn",
+                NationalCode = "UpdatedDummyCode"
+            };
+            var dummyId = 10;
+
+            Action expected = () => _sut.Update(dummyId, dto);
+
+            expected.Should().ThrowExactly<PatientNotFoundException>();
+        }
+
+        [Fact]
+        public void Update_throws_DuplicateNationalCodeException_when_another_patient_with_given_nationalCode_exists()
+        {
+            var dto = new UpdatePatientDto
+            {
+                FirstName = "UpdatedDummyFn",
+                LastName = "UpdatedDummyLn",
+                NationalCode = "dummyCode2"
+            };
+            Patient patient1 = new Patient
+            {
+                Id = 1,
+                FirstName = "dummyFn",
+                LastName = "dummyLn",
+                NationalCode = "dummyCode"
+            };
+            Patient patient2 = new Patient
+            {
+                Id = 2,
+                FirstName = "dummyFn2",
+                LastName = "dummyLn2",
+                NationalCode = "dummyCode2"
+            };
+            List<Patient> dupPatients = new List<Patient>
+            {
+                patient1, patient2
+            };
+            _repository.Setup(_ => _.FindByeId(patient1.Id)).Returns(patient1);
+            _repository.Setup(_ => _.IsExistId(patient1.Id)).Returns(true);
+            _repository.Setup(_ => _.FindByNationalCode(patient1.NationalCode)).Returns(dupPatients);
+
+            Action expected = () => _sut.Update(patient1.Id, dto);
+
+            expected.Should().ThrowExactly<DuplicateNationalCodeException>();
+        }
     }
 }
