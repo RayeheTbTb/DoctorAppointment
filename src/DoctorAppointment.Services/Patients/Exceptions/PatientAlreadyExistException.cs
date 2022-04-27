@@ -2,7 +2,7 @@
 
 namespace DoctorAppointment.Services.Patients.Exceptions
 {
-    internal class PatientAlreadyExistException : Exception
+    public class PatientAlreadyExistException : Exception
     {
         public PatientAlreadyExistException()
         {

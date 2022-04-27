@@ -17,14 +17,14 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
     public class DoctorServiceTestsMoq
     {
         DoctorAppService _sut;
-        Mock<DoctorRepository> repository;
-        Mock<UnitOfWork> unitOfWork;
+        Mock<DoctorRepository> _repository;
+        Mock<UnitOfWork> _unitOfWork;
 
         public DoctorServiceTestsMoq()
         {
-            repository = new Mock<DoctorRepository>();
-            unitOfWork = new Mock<UnitOfWork>();
-            _sut = new DoctorAppService(repository.Object, unitOfWork.Object);
+            _repository = new Mock<DoctorRepository>();
+            _unitOfWork = new Mock<UnitOfWork>();
+            _sut = new DoctorAppService(_repository.Object, _unitOfWork.Object);
         }
 
         [Fact]
@@ -40,8 +40,8 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
 
             _sut.Add(dto);
 
-            repository.Verify(_ => _.Add(It.Is<Doctor>(_ => _.FirstName == dto.FirstName)));
-            unitOfWork.Verify(_ => _.Commit());
+            _repository.Verify(_ => _.Add(It.Is<Doctor>(_ => _.FirstName == dto.FirstName)));
+            _unitOfWork.Verify(_ => _.Commit());
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
                 Field = "dummyField",
                 NationalCode = "dummyCode"
             };
-            repository.Setup(_ => _.IsExistNationalCode(dto.NationalCode)).Returns(true);
+            _repository.Setup(_ => _.IsExistNationalCode(dto.NationalCode)).Returns(true);
 
             Action expected  = () => _sut.Add(dto);
 
@@ -102,13 +102,13 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
                 Field = "dummyField",
                 NationalCode = "dummy"
             };
-            repository.Setup(_ => _.IsExistId(doctor.Id)).Returns(true);
-            repository.Setup(_ => _.FindById(doctor.Id)).Returns(doctor);
+            _repository.Setup(_ => _.IsExistId(doctor.Id)).Returns(true);
+            _repository.Setup(_ => _.FindById(doctor.Id)).Returns(doctor);
 
             _sut.Delete(doctor.Id);
 
-            repository.Verify(_ => _.Delete(It.Is<Doctor>(_ => _.Id == doctor.Id)));
-            unitOfWork.Verify(_ => _.Commit());
+            _repository.Verify(_ => _.Delete(It.Is<Doctor>(_ => _.Id == doctor.Id)));
+            _unitOfWork.Verify(_ => _.Commit());
         }
 
         [Fact]
@@ -124,7 +124,7 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
         [Fact]
         public void GetAll_returns_all_doctors()
         {
-            repository.Setup(_ => _.GetAll())
+            _repository.Setup(_ => _.GetAll())
                 .Returns(new List<GetDoctorDto>
                 {
                     new GetDoctorDto
@@ -155,7 +155,7 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
                 Field = "dummyField",
                 NationalCode = "dummy"
             };
-            repository.Setup(_ => _.Get(dto.Id)).Returns(dto);
+            _repository.Setup(_ => _.Get(dto.Id)).Returns(dto);
 
             var expected = _sut.Get(dto.Id);
 

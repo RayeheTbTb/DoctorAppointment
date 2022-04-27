@@ -2,7 +2,7 @@
 
 namespace DoctorAppointment.Services.Patients.Exceptions
 {
-    internal class PatientNotFoundException : Exception
+    public class PatientNotFoundException : Exception
     {
         public PatientNotFoundException()
         {

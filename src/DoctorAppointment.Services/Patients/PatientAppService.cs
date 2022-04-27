@@ -39,12 +39,13 @@ namespace DoctorAppointment.Services.Patients
 
         public void Delete(int id)
         {
+            var patient = _repository.FindByeId(id);
             var isPatientExist = _repository.IsExistId(id);
             if (!isPatientExist)
             {
                 throw new PatientNotFoundException();
             }
-            _repository.Delete(id);
+            _repository.Delete(patient);
             _unitOfWork.Commit();
         }
 

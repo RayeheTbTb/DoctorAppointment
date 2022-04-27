@@ -21,9 +21,9 @@ namespace DoctorAppointment.Persistence.EF.Patients
             _patients.Add(patient);
         }
 
-        public void Delete(int id)
+        public void Delete(Patient patient)
         {
-            _patients.Remove(FindByeId(id));
+            _patients.Remove(patient);
         }
 
         public Patient FindByeId(int id)

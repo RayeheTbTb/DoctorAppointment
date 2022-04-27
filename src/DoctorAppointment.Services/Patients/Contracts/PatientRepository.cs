@@ -6,7 +6,7 @@ namespace DoctorAppointment.Services.Patients.Contracts
     public interface PatientRepository
     {
         void Add(Patient patient);
-        void Delete(int id);
+        void Delete(Patient patient);
         void Update(Patient patient);
         List<GetPatientDto> GetAll();
         GetPatientDto Get(int id);
