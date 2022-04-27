@@ -88,24 +88,7 @@ namespace DoctorAppointment.Services.Test.Unit.Appointments
         {
             int dummyId = 1;
             _repository.Setup(_ => _.GetPatientAppointments(dummyId))
-                .Returns(new List<PatientAppointmentsDto>
-                {
-                    new PatientAppointmentsDto
-                    {
-                        FirstName = "dummy",
-                        LastName = "dummyLn",
-                        Appointments = new List<DoctorAppointmentDateDto>
-                        {
-                            new DoctorAppointmentDateDto
-                            {
-                                DoctorFirstname = "dummyDr",
-                                DoctorLastName = "dummDrLn",
-                                DoctorId = 1,
-                                Date = DateTime.Parse("2022-04-27T05:22:05.264Z")
-                            }
-                        }
-                    }
-                });
+                .Returns(GeneratePatientAppointmentsList());
 
             var expected = _sut.GetPatientAppointments(dummyId);
 
@@ -113,35 +96,22 @@ namespace DoctorAppointment.Services.Test.Unit.Appointments
             expected.Should().Contain(_ => _.FirstName == "dummy");
         }
 
+        
+
         [Fact]
         public void GetDoctorAppointments_returns_given_doctor_id_appointments()
         {
             int dummyId = 1;
             _repository.Setup(_ => _.GetDoctorAppointments(dummyId))
-                .Returns(new List<DoctorAppointmentsDto>
-                {
-                    new DoctorAppointmentsDto
-                    {
-                        FirstName = "dummy",
-                        LastName = "dummyLn",
-                        Field = "dummyFIeld",
-                        Appointments = new List<DoctorAppointmentDetailsDto>
-                        {
-                            new DoctorAppointmentDetailsDto
-                            {
-                                PatientFirstName = "dummyPt",
-                                PatientLastName = "dummyPtLn",
-                                Date = DateTime.Parse("2022-04-27T05:22:05.264Z")
-                            }
-                        }
-                    }
-                });
+                .Returns(GenerateDoctorAppointmentsList());
 
             var expected = _sut.GetDoctorAppointments(dummyId);
 
             expected.Should().HaveCount(1);
             expected.Should().Contain(_ => _.FirstName == "dummy");
         }
+
+        
 
         [Fact]
         public void Update_updates_appointment_porperly()
@@ -201,6 +171,50 @@ namespace DoctorAppointment.Services.Test.Unit.Appointments
 
             _repository.Verify(_ => _.Delete(It.Is<Appointment>(_ => _.Id == appointment.Id)));
             _unitOfWork.Verify(_ => _.Commit());
+        }
+
+        private static List<DoctorAppointmentsDto> GenerateDoctorAppointmentsList()
+        {
+            return new List<DoctorAppointmentsDto>
+            {
+                new DoctorAppointmentsDto
+                {
+                    FirstName = "dummy",
+                    LastName = "dummyLn",
+                    Field = "dummyFIeld",
+                    Appointments = new List<DoctorAppointmentDetailsDto>
+                    {
+                        new DoctorAppointmentDetailsDto
+                        {
+                            PatientFirstName = "dummyPt",
+                            PatientLastName = "dummyPtLn",
+                            Date = DateTime.Parse("2022-04-27T05:22:05.264Z")
+                        }
+                    }
+                }
+            };
+        }
+
+        private static List<PatientAppointmentsDto> GeneratePatientAppointmentsList()
+        {
+            return new List<PatientAppointmentsDto>
+            {
+                new PatientAppointmentsDto
+                {
+                    FirstName = "dummy",
+                    LastName = "dummyLn",
+                    Appointments = new List<DoctorAppointmentDateDto>
+                    {
+                        new DoctorAppointmentDateDto
+                        {
+                            DoctorFirstname = "dummyDr",
+                            DoctorLastName = "dummDrLn",
+                            DoctorId = 1,
+                            Date = DateTime.Parse("2022-04-27T05:22:05.264Z")
+                        }
+                    }
+                }
+            };
         }
     }
 }
