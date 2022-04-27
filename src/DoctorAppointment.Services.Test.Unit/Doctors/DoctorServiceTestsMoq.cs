@@ -54,7 +54,6 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
                 Field = "dummyField",
                 NationalCode = "dummyCode"
             };
-
             repository.Setup(_ => _.IsExistNationalCode(dto.NationalCode)).Returns(true);
 
             Action expected  = () => _sut.Add(dto);
@@ -83,13 +82,84 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
                 NationalCode = "dummy"
             };
 
-            //prob with Update exceptions!!
+            //problem with Update exceptions!!
 
             /*repository.Setup(_ => _.FindById(doctor.Id)).Returns(doctor);
 
             _sut.Update(doctor.Id, dto);
 
             unitOfWork.Verify(_ => _.Commit());*/
+        }
+
+        [Fact]
+        public void Delete_deletes_doctor_properly()
+        {
+            var doctor = new Doctor
+            {
+                Id = 1,
+                FirstName = "dummy",
+                LastName = "dummyLn",
+                Field = "dummyField",
+                NationalCode = "dummy"
+            };
+            repository.Setup(_ => _.IsExistId(doctor.Id)).Returns(true);
+            repository.Setup(_ => _.FindById(doctor.Id)).Returns(doctor);
+
+            _sut.Delete(doctor.Id);
+
+            repository.Verify(_ => _.Delete(It.Is<Doctor>(_ => _.Id == doctor.Id)));
+            unitOfWork.Verify(_ => _.Commit());
+        }
+
+        [Fact]
+        public void Delete_throws_DoctorNotFoundException_when_doctor_with_given_id_does_not_exist()
+        {
+            var dummyId = 10;
+
+            Action expected = () => _sut.Delete(dummyId);
+
+            expected.Should().ThrowExactly<DoctorNotFoundException>();
+        }
+
+        [Fact]
+        public void GetAll_returns_all_doctors()
+        {
+            repository.Setup(_ => _.GetAll())
+                .Returns(new List<GetDoctorDto>
+                {
+                    new GetDoctorDto
+                    {
+                        Id = 1,
+                        FirstName = "dummy",
+                        LastName = "dummyLn",
+                        Field = "dummyField",
+                        NationalCode = "dummy"
+                    }
+                });
+
+            var expected = _sut.GetAll();
+
+            expected.Should().HaveCount(1);
+            expected.Should().Contain(_ => _.NationalCode == "dummy");
+            expected.Should().Contain(_ => _.Id == 1);
+        }
+
+        [Fact]
+        public void Get_returns_doctor_with_given_id()
+        {
+            var dto = new GetDoctorDto
+            {
+                Id = 1,
+                FirstName = "dummy",
+                LastName = "dummyLn",
+                Field = "dummyField",
+                NationalCode = "dummy"
+            };
+            repository.Setup(_ => _.Get(dto.Id)).Returns(dto);
+
+            var expected = _sut.Get(dto.Id);
+
+            expected.Id.Should().Be(dto.Id);
         }
     }
 }

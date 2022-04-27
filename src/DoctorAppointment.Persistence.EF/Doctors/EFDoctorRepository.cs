@@ -20,9 +20,9 @@ namespace DoctorAppointment.Persistence.EF.Doctors
             _doctors.Add(doctor);
         }
 
-        public void Delete(int id)
+        public void Delete(Doctor doctor)
         {
-            _doctors.Remove(FindById(id));
+            _doctors.Remove(doctor);
         }
 
         public Doctor FindById(int id)
