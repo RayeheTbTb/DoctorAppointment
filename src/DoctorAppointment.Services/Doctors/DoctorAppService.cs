@@ -65,14 +65,7 @@ namespace DoctorAppointment.Services.Doctors
 
         public void Update(int id, AddDoctorDto dto)
         {
-            var doctor = new Doctor
-            {
-                Id = id,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                Field = dto.Field,
-                NationalCode = dto.NationalCode
-            };
+            var doctor = _repository.FindById(id);
 
             var isDoctorExist = _repository.IsExistId(doctor.Id);
             if (!isDoctorExist)
@@ -88,7 +81,11 @@ namespace DoctorAppointment.Services.Doctors
                 }
             }
 
-            _repository.Update(doctor);
+            doctor.FirstName = dto.FirstName;
+            doctor.LastName = dto.LastName;
+            doctor.Field = dto.Field;
+            doctor.NationalCode = dto.NationalCode;
+
             _unitOfWork.Commit();
         }
     }

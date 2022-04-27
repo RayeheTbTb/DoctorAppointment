@@ -8,7 +8,6 @@ namespace DoctorAppointment.Services.Doctors.Contracts
         void Add(Doctor doctor);
         List<GetDoctorDto> GetAll();
         GetDoctorDto Get(int id);
-        void Update(Doctor doctor);
         void Delete(int id);
         bool IsExistNationalCode(string nationalCode);
         Doctor FindById(int id);

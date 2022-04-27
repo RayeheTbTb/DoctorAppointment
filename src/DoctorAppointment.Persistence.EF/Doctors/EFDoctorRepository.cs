@@ -68,10 +68,5 @@ namespace DoctorAppointment.Persistence.EF.Doctors
         {
             return _doctors.AsNoTracking().Any(_ => _.NationalCode == nationalCode);
         }
-
-        public void Update(Doctor doctor)
-        {
-            _doctors.Update(doctor);
-        }
     }
 }
