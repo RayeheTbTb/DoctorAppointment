@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppointment.RestAPI",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C5E0E9B6-295C-43D0-ADE4-C391348B35DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointment.Services.Test.Unit", "DoctorAppointment.Services.Test.Unit\DoctorAppointment.Services.Test.Unit.csproj", "{9ED0C355-CA8B-4D46-B0C4-23C081181944}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppointment.Services.Test.Unit", "DoctorAppointment.Services.Test.Unit\DoctorAppointment.Services.Test.Unit.csproj", "{9ED0C355-CA8B-4D46-B0C4-23C081181944}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointment.Test.Tools", "DoctorAppointment.Test.Tools\DoctorAppointment.Test.Tools.csproj", "{920E1C8B-58E9-4420-A1AB-ED9438474680}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,12 +55,17 @@ Global
 		{9ED0C355-CA8B-4D46-B0C4-23C081181944}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ED0C355-CA8B-4D46-B0C4-23C081181944}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ED0C355-CA8B-4D46-B0C4-23C081181944}.Release|Any CPU.Build.0 = Release|Any CPU
+		{920E1C8B-58E9-4420-A1AB-ED9438474680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{920E1C8B-58E9-4420-A1AB-ED9438474680}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{920E1C8B-58E9-4420-A1AB-ED9438474680}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{920E1C8B-58E9-4420-A1AB-ED9438474680}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9ED0C355-CA8B-4D46-B0C4-23C081181944} = {C5E0E9B6-295C-43D0-ADE4-C391348B35DD}
+		{920E1C8B-58E9-4420-A1AB-ED9438474680} = {C5E0E9B6-295C-43D0-ADE4-C391348B35DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {791645C6-9989-4F1A-BCF8-D17F127D23C4}

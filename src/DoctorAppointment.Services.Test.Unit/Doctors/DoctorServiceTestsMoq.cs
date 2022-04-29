@@ -95,7 +95,7 @@ namespace DoctorAppointment.Services.Test.Unit.Doctors
         }
 
         [Fact]
-        public void Updates_throws_DoctorNotFoundException_when_patient_with_given_id_does_not_exist()
+        public void Updates_throws_DoctorNotFoundException_when_doctor_with_given_id_does_not_exist()
         {
             var dto = new AddDoctorDto
             {

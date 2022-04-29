@@ -41,7 +41,7 @@ namespace DoctorAppointment.RestAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public void Update(int id, AddAppointmentDto dto)
+        public void Update(int id, UpdateAppointmentDto dto)
         {
             _service.Update(id, dto);
         }

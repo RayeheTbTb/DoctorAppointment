@@ -26,7 +26,7 @@ namespace DoctorAppointment.Services.Appointments
             };
 
             var appCount = _repository.GetAppointmentCount(appointment.DoctorId, appointment.Date);
-            if (appCount == 5)
+            if (appCount >= 5)
             {
                 throw new AppointmentLimitReachedException();
             }
@@ -65,7 +65,7 @@ namespace DoctorAppointment.Services.Appointments
             return _repository.GetPatientAppointments(id);
         }
 
-        public void Update(int id, AddAppointmentDto dto)
+        public void Update(int id, UpdateAppointmentDto dto)
         {
             var appointment = _repository.FindById(id);
 
@@ -73,6 +73,12 @@ namespace DoctorAppointment.Services.Appointments
             if (!isAppointmentExist)
             {
                 throw new AppointmentNotFoundException();
+            }
+
+            var appCount = _repository.GetAppointmentCount(dto.DoctorId, dto.Date);
+            if(appCount >= 5)
+            {
+                throw new AppointmentLimitReachedException();
             }
 
             appointment.DoctorId = dto.DoctorId;

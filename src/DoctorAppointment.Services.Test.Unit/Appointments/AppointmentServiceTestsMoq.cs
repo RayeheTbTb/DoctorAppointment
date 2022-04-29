@@ -116,7 +116,7 @@ namespace DoctorAppointment.Services.Test.Unit.Appointments
         [Fact]
         public void Update_updates_appointment_porperly()
         {
-            var dto = new AddAppointmentDto
+            var dto = new UpdateAppointmentDto
             {
                 DoctorId = 2,
                 PatientId = 2,
@@ -141,7 +141,7 @@ namespace DoctorAppointment.Services.Test.Unit.Appointments
         public void Update_throws_AppointmentNotFoundException_when_appointment_with_given_id_does_not_exist()
         {
             var dummyId = 1;
-            var dto = new AddAppointmentDto
+            var dto = new UpdateAppointmentDto
             {
                 DoctorId = 2,
                 PatientId = 2,

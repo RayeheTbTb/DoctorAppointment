@@ -136,6 +136,9 @@ namespace DoctorAppointment.Services.Test.Unit.Patients
             var patient2 = GeneratePatient("2");
             _dataContext.Manipulate(_ => _.Patients.Add(patient2));
 
+            Action expected = () => _sut.Update(patient1.Id, dto);
+            expected.Should().ThrowExactly<DuplicateNationalCodeException>();
+
         }
 
         private static UpdatePatientDto GenerateUpdatePatientDto()
